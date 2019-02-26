@@ -1,4 +1,4 @@
-/* window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', () => {
 
   const cartWrapper = document.querySelector('.cart__wrapper'),
     cart = document.querySelector('.cart'),
@@ -9,7 +9,8 @@
     confirm = document.querySelector('.confirm'),
     badge = document.querySelector('.nav__badge'),
     totalCost = document.querySelector('.cart__total > span'),
-    titles = document.querySelectorAll('.goods__title');
+    titles = document.querySelectorAll('.goods__title'),
+    empty = document.querySelector('.empty');
 
   function openCart() {
     cart.style.display = 'block';
@@ -28,25 +29,22 @@
     btn.addEventListener('click', () => {
       let item = products[i].cloneNode(true),
         trigger = item.querySelector('button'),
-        removeBtn = document.createElement('div'),
-        empty = cartWrapper.querySelector('.empty');
+        removeBtn = document.createElement('div');
 
       trigger.remove();
 
       showConfirm();
-      calcGoods(1);
 
       removeBtn.classList.add('goods__item-remove');
       removeBtn.innerHTML = '&times';
       item.appendChild(removeBtn);
 
       cartWrapper.appendChild(item);
-      if (empty) {
-        empty.remove();
-      }
 
+      calcGoods();
       calcTotal();
       removeFromCart();
+      cartEmpty();
     });
   });
 
@@ -80,9 +78,9 @@
     }
   }
 
-  function calcGoods(i) {
+  function calcGoods() {
     const items = cartWrapper.querySelectorAll('.goods__item');
-    badge.textContent = items.length + i;
+    badge.textContent = items.length;
   }
 
   function calcTotal() {
@@ -96,17 +94,22 @@
 
   function removeFromCart() {
     const removeBtn = cartWrapper.querySelectorAll('.goods__item-remove');
-    removeBtn.forEach(function(btn) {
+    removeBtn.forEach(function (btn) {
       btn.addEventListener('click', () => {
         btn.parentElement.remove();
-        calcGoods(0);
+        calcGoods();
         calcTotal();
+        cartEmpty();
       });
     });
   }
+
+  function cartEmpty() {
+    const item = cartWrapper.querySelectorAll('.goods__item');
+    if (item.length > 0) {
+      empty.style.display = 'none';
+    } else {
+      empty.style.display = 'block';
+    }
+  }
 });
- */
-// var, let, const;
-// (hoisting)
-let a = 5;
-console.log(a);
